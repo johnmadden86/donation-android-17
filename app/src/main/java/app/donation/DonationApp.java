@@ -12,7 +12,8 @@ public class DonationApp extends Application {
     public final int target = 10000;
     public int totalDonated = 0;
     private String totalDonatedString = "Total: " + totalDonated;
-    public List<Donation> donations = new ArrayList<Donation>();
+    public List<Donation> donations = new ArrayList<>();
+    public List<User> users = new ArrayList<>();
 
     @Override
     public void onCreate() {
@@ -30,5 +31,9 @@ public class DonationApp extends Application {
             toast.show();
         }
         return targetAchieved;
+    }
+
+    public void newUser (User user) {
+        users.add(user);
     }
 }
