@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Donation</string>
     <string name="donateTitle">MyRent Homer</string>
     <string name="donateSubtitle">Please give generously</string>
     <string name="donateButton">Donate</string>
@@ -20,4 +19,7 @@
     <string name="menuLogout">Logout</string>
     <string name="menuDonate">Donate</string>
     <string name="hello_world">Hello World!</string>
+        <string name="app_name">MyRent</string>
+        <string name="title_activity_myrent">MyRentActivity</string>
+        <string name="geolocation_hint">52.253456,-7.187162</string>
 </resources>

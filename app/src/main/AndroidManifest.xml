@@ -3,26 +3,33 @@
     package="app.donation">
 
     <application
+        android:name=".main.DonationApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".main.DonationApp" >
-        <activity android:name=".activity.SignUp"
-            android:label="@string/signUp"/>
-        <activity android:name=".activity.Login"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.SignUp"
+            android:label="@string/signUp" />
+        <activity
+            android:name=".activity.Login"
             android:label="@string/login">
+        </activity>
+        <activity
+            android:name=".activity.Donate"
+            android:label="@string/donateButton" />
+        <activity
+            android:name=".activity.Report"
+            android:label="@string/reportTitle" />
+        <activity
+            android:name=".activity.MyRentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.Donate"
-            android:label="@string/donateButton"/>
-        <activity android:name=".activity.Report"
-            android:label="@string/reportTitle" />
     </application>
 
 </manifest>
