@@ -1,4 +1,4 @@
-package app.donation;
+package org.wit.myrent;
 
 import org.junit.Test;
 

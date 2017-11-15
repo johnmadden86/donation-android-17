@@ -1,4 +1,4 @@
-package app.donation;
+package org.wit.myrent;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
