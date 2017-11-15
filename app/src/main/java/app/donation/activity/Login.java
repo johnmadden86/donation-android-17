@@ -1,4 +1,4 @@
-package app.donation;
+package app.donation.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,9 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import app.donation.R;
-import app.donation.DonationApp;
+import app.donation.main.DonationApp;
 
 public class Login extends AppCompatActivity {
     private DonationApp app;
@@ -32,10 +33,16 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(this, Donate.class));
                 Log.v("Donate", "Login successful " + emailInput);
             } else {
+                Toast.makeText(this, "Login failed!", Toast.LENGTH_SHORT).show();
                 Log.v("Donate", "Login failed");
-                startActivity(new Intent(this, Welcome.class));
+                startActivity(new Intent(this, Login.class));
             }
         }
     }
+
+    public void signUp (View view) {
+        startActivity(new Intent(this, SignUp.class));
+    }
+
 
 }

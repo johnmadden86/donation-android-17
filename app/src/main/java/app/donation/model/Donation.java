@@ -1,4 +1,4 @@
-package app.donation;
+package app.donation.model;
 
 public class Donation {
     public int    amount;

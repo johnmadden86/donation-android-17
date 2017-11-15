@@ -1,4 +1,4 @@
-package app.donation;
+package app.donation.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import app.donation.R;
-import app.donation.DonationApp;
-import app.donation.User;
+import app.donation.main.DonationApp;
+import app.donation.model.User;
 
 public class SignUp extends AppCompatActivity {
     private DonationApp app;

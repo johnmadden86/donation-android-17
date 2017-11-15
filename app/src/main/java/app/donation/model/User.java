@@ -1,11 +1,14 @@
-package app.donation;
+package app.donation.model;
 
 import android.widget.TextView;
 
 import java.security.KeyStore;
 
 public class User {
-    private String firstName, lastName, email, password;
+    private String firstName;
+    private String lastName;
+    public String email;
+    public String password;
 
     public User(String firstName, String lastName, String email, String password) {
         setFirstName(firstName);

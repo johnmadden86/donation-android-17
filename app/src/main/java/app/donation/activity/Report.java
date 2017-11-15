@@ -1,5 +1,7 @@
-package app.donation;
+package app.donation.activity;
 
+import app.donation.main.DonationApp;
+import app.donation.model.Donation;
 import app.donation.R;
 
 import android.content.Context;
@@ -48,7 +50,7 @@ public class Report extends AppCompatActivity {
                 Toast.makeText(this, "Settings Selected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menuLogout:
-                startActivity (new Intent(this, Welcome.class));
+                startActivity (new Intent(this, Login.class));
                 break;
         }
         return true;
@@ -75,8 +77,7 @@ class DonationAdapter extends ArrayAdapter<Donation> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent)
-    {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = inflater.inflate(R.layout.row_layout, parent, false);
