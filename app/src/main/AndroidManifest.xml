@@ -26,7 +26,13 @@
         <activity
             android:name=".activity.Report"
             android:label="@string/reportTitle" />
-        <activity android:name="org.wit.myrent.activities.ResidenceActivity"/>
+
+        <activity android:name="org.wit.myrent.activities.ResidenceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.wit.myrent.activities.ResidenceListActivity"
+                />
+        </activity>
         <activity android:name="org.wit.myrent.activities.ResidenceListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -29,7 +30,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class ResidenceActivity extends Activity
+import static org.wit.android.helpers.IntentHelper.navigateUp;
+
+public class ResidenceActivity extends AppCompatActivity
         implements TextWatcher, CompoundButton.OnCheckedChangeListener, View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
     private EditText geolocation;
@@ -42,6 +45,7 @@ public class ResidenceActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_residence);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         geolocation = (EditText) findViewById(R.id.geolocation);
         geolocation.addTextChangedListener(this);
@@ -77,7 +81,9 @@ public class ResidenceActivity extends Activity
     };
 
     public boolean onOptionsItemSelected(MenuItem item){
+
         switch (item.getItemId()) {
+            /*
             case R.id.menuReport:
                 startActivity (new Intent(this, Report.class));
                 break;
@@ -87,11 +93,13 @@ public class ResidenceActivity extends Activity
             case R.id.menuLogout:
                 startActivity (new Intent(this, Login.class));
                 break;
+                */
+            case android.R.id.home:
+                navigateUp(this);
+                return true;
         }
-
-        // return true;
         return super.onOptionsItemSelected(item);
-    };
+    }
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
