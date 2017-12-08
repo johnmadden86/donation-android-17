@@ -3,12 +3,21 @@ import java.util.ArrayList;
 
 import android.util.Log;
 
-public class Portfolio {
-    public ArrayList<Residence> residences;
+import static org.wit.android.helpers.LogHelpers.info;
 
-    public Portfolio() {
-        residences = new ArrayList<Residence>();
-        // this.generateTestData();
+public class Portfolio {
+
+    public ArrayList<Residence> residences;
+    private PortfolioSerializer serializer;
+
+    public Portfolio(PortfolioSerializer serializer) {
+        this.serializer = serializer;
+        try {
+            residences = serializer.loadResidences();
+        } catch (Exception e) {
+            info(this, "Error loading residences: " + e.getMessage());
+            residences = new ArrayList<>();
+        }
     }
 
     public void addResidence(Residence residence) {
@@ -26,19 +35,14 @@ public class Portfolio {
         return null;
     }
 
-    /*
-    private void generateTestData() {
-        for (int i = 0; i < 100; i += 1) {
-            Residence r = new Residence();
-            r.geolocation = (52.253456 + i) % 90 + ", " + (-7.187162 - i) % 180 + "";
-            if (i % 2 == 0) {
-                r.rented = true;
-            }
-            else {
-                r.rented = false;
-            }
-            residences.add(r);
+    public boolean saveResidences() {
+        try {
+            serializer.saveResidences(residences);
+            info(this, "Residences saved to file");
+            return true;
+        } catch (Exception e) {
+            info(this, "Error saving residences: " + e.getMessage());
+            return false;
         }
     }
-    */
 }

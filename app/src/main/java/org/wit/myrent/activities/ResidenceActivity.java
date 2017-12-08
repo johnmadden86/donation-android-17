@@ -64,6 +64,12 @@ public class ResidenceActivity extends Activity
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        portfolio.saveResidences();
+    }
+
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_donate, menu);
         return true;
