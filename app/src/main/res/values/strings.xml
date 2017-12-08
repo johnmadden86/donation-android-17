@@ -28,4 +28,6 @@
     <string name="isrented">Rented?</string>
     <string name="not_registered">Not registered?</string>
     <string name="already_registered">Already Registered?</string>
+    <string name="new_residence">New Residence</string>
+    <string name="settings">Settings</string>
 </resources>

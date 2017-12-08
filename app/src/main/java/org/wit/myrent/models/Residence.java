@@ -3,8 +3,8 @@ package org.wit.myrent.models;
 import java.util.Date;
 import java.util.Random;
 
-public class Residence
-{
+public class Residence {
+
     public Long id;
     public Long date;
     public String geolocation;
@@ -13,6 +13,7 @@ public class Residence
     public Residence() {
         id = unsignedLong();
         date = new Date().getTime();
+        geolocation = "52.253456,-7.187162";
     }
 
     /**

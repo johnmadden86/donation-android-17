@@ -8,7 +8,7 @@ public class Portfolio {
 
     public Portfolio() {
         residences = new ArrayList<Residence>();
-        this.generateTestData();
+        // this.generateTestData();
     }
 
     public void addResidence(Residence residence) {
@@ -26,6 +26,7 @@ public class Portfolio {
         return null;
     }
 
+    /*
     private void generateTestData() {
         for (int i = 0; i < 100; i += 1) {
             Residence r = new Residence();
@@ -39,4 +40,5 @@ public class Portfolio {
             residences.add(r);
         }
     }
+    */
 }
