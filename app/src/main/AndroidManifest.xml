@@ -3,6 +3,7 @@
     package="app.donation">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:name="org.wit.myrent.app.MyRentApp"

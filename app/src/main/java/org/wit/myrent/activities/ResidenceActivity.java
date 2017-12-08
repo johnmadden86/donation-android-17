@@ -1,9 +1,13 @@
 package org.wit.myrent.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,6 +26,7 @@ import app.donation.R;
 import app.donation.activity.Login;
 import app.donation.activity.Report;
 
+import org.wit.android.helpers.IntentHelper;
 import org.wit.myrent.app.MyRentApp;
 import org.wit.myrent.models.Portfolio;
 import org.wit.myrent.models.Residence;
@@ -30,7 +35,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static org.wit.android.helpers.ContactHelper.getContact;
+import static org.wit.android.helpers.ContactHelper.getDisplayName;
+import static org.wit.android.helpers.ContactHelper.getEmail;
+import static org.wit.android.helpers.ContactHelper.sendEmail;
 import static org.wit.android.helpers.IntentHelper.navigateUp;
+import static org.wit.android.helpers.IntentHelper.selectContact;
 
 public class ResidenceActivity extends AppCompatActivity
         implements TextWatcher, CompoundButton.OnCheckedChangeListener, View.OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -38,8 +48,12 @@ public class ResidenceActivity extends AppCompatActivity
     private EditText geolocation;
     private Residence residence;
     private CheckBox rented;
-    private Button dateButton;
+    private Button dateButton, tenantButton, reportButton;
     private Portfolio portfolio;
+    private static final int REQUEST_CONTACT = 1;
+    private String emailAddress;
+
+    private Intent data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +64,16 @@ public class ResidenceActivity extends AppCompatActivity
         geolocation = (EditText) findViewById(R.id.geolocation);
         geolocation.addTextChangedListener(this);
 
-        dateButton  = (Button) findViewById(R.id.registration_date);
+        dateButton = (Button) findViewById(R.id.registration_date);
         dateButton.setOnClickListener(this);
-        // dateButton.setEnabled(false);
 
-        rented      = (CheckBox) findViewById(R.id.isrented);
+        tenantButton = (Button) findViewById(R.id.tenant);
+        tenantButton.setOnClickListener(this);
+
+        reportButton = (Button) findViewById(R.id.residence_reportButton);
+        reportButton.setOnClickListener(this);
+
+        rented = (CheckBox) findViewById(R.id.isrented);
         rented.setOnCheckedChangeListener(this);
 
         residence = new Residence();
@@ -138,10 +157,47 @@ public class ResidenceActivity extends AppCompatActivity
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.registration_date      : Calendar c = Calendar.getInstance();
+            case R.id.registration_date :
+                Calendar c = Calendar.getInstance();
                 DatePickerDialog dpd = new DatePickerDialog (this, this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
                 dpd.show();
                 break;
+            case R.id.tenant:
+                selectContact(this, REQUEST_CONTACT);
+                break;
+            case R.id.residence_reportButton:
+                sendEmail(this, emailAddress, getString(R.string.residence_report_subject), residence.getResidenceReport(this));
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CONTACT:
+                this.data = data;
+                checkContactsReadPermission();
+        }
+    }
+
+    private void checkContactsReadPermission() {
+        if (ContextCompat.checkSelfPermission
+                (this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions
+                    (this, new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CONTACT);
+        }
+        else
+        {
+            readContact();
+        }
+    }
+
+
+    private void readContact() {
+        String name = getDisplayName(this, data);
+        emailAddress = getEmail(this, data);
+        String fullDetails = name + " " + emailAddress;
+        tenantButton.setText(fullDetails);
+        residence.tenant = name;
     }
 }
