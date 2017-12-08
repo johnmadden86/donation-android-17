@@ -1,11 +1,16 @@
 package app.donation.activity;
 
 import app.donation.main.DonationApp;
+import app.donation.model.Candidate;
 import app.donation.model.Donation;
 import app.donation.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,17 +21,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
-public class Report extends AppCompatActivity {
+public class Report extends AppCompatActivity implements Callback<List<Donation>> {
 
     private DonationApp app;
     private ListView listView;
-
+    private DonationAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,8 +43,11 @@ public class Report extends AppCompatActivity {
         app = (DonationApp) getApplication();
 
         listView = findViewById(R.id.reportList);
-        DonationAdapter adapter = new DonationAdapter(this, app.donations);
+        adapter = new DonationAdapter(this, app.donations);
         listView.setAdapter(adapter);
+
+        Call<List<Donation>> call = (Call<List<Donation>>) app.donationService.getAllDonations();
+        call.enqueue(this);
     }
 
     @Override
@@ -62,12 +72,23 @@ public class Report extends AppCompatActivity {
         inflater.inflate(R.menu.menu_report, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public void onResponse(Call<List<Donation>> call, Response<List<Donation>> response) {
+        adapter.donations = response.body();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onFailure(Call<List<Donation>> call, Throwable t) {
+        Toast.makeText(this, "Error retrieving donations", Toast.LENGTH_LONG).show();
+    }
 }
 
 class DonationAdapter extends ArrayAdapter<Donation> {
 
     private Context context;
-    private List<Donation> donations;
+    public List<Donation> donations;
 
     DonationAdapter(Context context, List<Donation> donations) {
         super(context, R.layout.row_layout, donations);
@@ -85,7 +106,8 @@ class DonationAdapter extends ArrayAdapter<Donation> {
         TextView amountView = view.findViewById(R.id.row_amount);
         TextView methodView = view.findViewById(R.id.row_method);
 
-        amountView.setText("€" + donation.amount);
+        String currencyString = "€" + donation.amount;
+        amountView.setText(currencyString);
         methodView.setText(donation.method);
 
         return view;

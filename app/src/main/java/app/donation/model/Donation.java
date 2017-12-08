@@ -1,7 +1,8 @@
 package app.donation.model;
 
 public class Donation {
-    public int    amount;
+    public String _id;
+    public int amount;
     public String method;
 
     public Donation (int amount, String method) {

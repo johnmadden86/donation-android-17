@@ -17,17 +17,18 @@ import android.widget.Toast;
 import app.donation.R;
 import app.donation.activity.Login;
 import app.donation.activity.Report;
+
+import org.wit.myrent.app.MyRentApp;
+import org.wit.myrent.models.Portfolio;
 import org.wit.myrent.models.Residence;
 
 public class ResidenceActivity extends Activity implements TextWatcher, CompoundButton.OnCheckedChangeListener {
 
     private EditText geolocation;
     private Residence residence;
-
     private CheckBox rented;
     private Button dateButton;
-
-
+    private Portfolio portfolio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,14 @@ public class ResidenceActivity extends Activity implements TextWatcher, Compound
         rented.setOnCheckedChangeListener(this);
 
         residence = new Residence();
+
+        MyRentApp app = (MyRentApp) getApplication();
+        portfolio = app.portfolio;
+        Long resId = (Long) getIntent().getExtras().getSerializable("RESIDENCE_ID");
+        residence = portfolio.getResidence(resId);
+        if (residence != null) {
+            updateControls(residence);
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -88,5 +97,11 @@ public class ResidenceActivity extends Activity implements TextWatcher, Compound
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
         Log.i(this.getClass().getSimpleName(), "rented Checked");
         residence.rented = isChecked;
+    }
+
+    public void updateControls(Residence residence) {
+        geolocation.setText(residence.geolocation);
+        rented.setChecked(residence.rented);
+        dateButton.setText(residence.getDateString());
     }
 }

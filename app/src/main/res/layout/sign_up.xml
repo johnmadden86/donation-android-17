@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/firstName"
+        android:hint="@string/firstName"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         android:layout_marginStart="8dp"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/lastName"
+        android:hint="@string/lastName"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         android:layout_marginStart="8dp"
@@ -52,7 +52,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:text="@string/email"
+        android:hint="@string/email"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/lastName"
         app:layout_constraintRight_toRightOf="@+id/lastName"
@@ -68,7 +68,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:text="@string/password"
+        android:hint="@string/password"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/email"
         app:layout_constraintRight_toRightOf="@+id/email"
@@ -89,4 +89,30 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:onClick="login"
+        android:text="@string/login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/button"
+        app:layout_constraintStart_toStartOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="1.0"
+        />
+
+    <TextView
+        android:id="@+id/already_reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:text="@string/already_registered"
+        app:layout_constraintBottom_toTopOf="@+id/login"
+        app:layout_constraintEnd_toEndOf="@+id/login"
+        app:layout_constraintStart_toStartOf="@+id/login" />
+
 </android.support.constraint.ConstraintLayout>

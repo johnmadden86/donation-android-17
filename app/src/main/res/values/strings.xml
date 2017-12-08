@@ -1,5 +1,5 @@
 <resources>
-    <string name="donateTitle">MyRent Homer</string>
+    <string name="donateTitle">Welcome</string>
     <string name="donateSubtitle">Please give generously</string>
     <string name="donateButton">Donate</string>
     <string name="PayPal">PayPal</string>
@@ -19,11 +19,13 @@
     <string name="menuLogout">Logout</string>
     <string name="menuDonate">Donate</string>
 
-    <string name="app_name">MyRent</string>
+    <string name="app_name">Donation</string>
     <string name="hello_world">Hello World!</string>
     <string name="geolocation_hint">52.253456,-7.187162</string>
     <string name="registration_date" />
     <string name="location">Location</string>
     <string name="status">Status</string>
     <string name="isrented">Rented?</string>
+    <string name="not_registered">Not registered?</string>
+    <string name="already_registered">Already Registered?</string>
 </resources>

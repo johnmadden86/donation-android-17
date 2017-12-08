@@ -8,10 +8,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 import app.donation.R;
 import app.donation.main.DonationApp;
+import app.donation.model.Candidate;
+import app.donation.model.Donation;
+import app.donation.model.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity // implements Callback<List<User>>
+{
     private DonationApp app;
     private EditText email, password;
 
@@ -24,25 +33,80 @@ public class Login extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
     }
 
-    public void login (View view) {
-        String emailInput = email.getText().toString();
-        String passwordInput = password.getText().toString();
+    @Override
+    public void onResume() {
+        super.onResume();
+        app.currentUser = null;
 
-        for (int i = 0; i < app.users.size(); i++) {
-            if (emailInput.equals(app.users.get(i).getEmail()) && passwordInput.equals(app.users.get(i).getPassword())) {
+        /*
+        Call<List<User>> call1 = (Call<List<User>>) app.donationService.getAllUsers();
+        call1.enqueue(this);]=
+        */
+
+        Call<List<Candidate>> call2 = (Call<List<Candidate>>) app.donationServiceOpen.getAllCandidates();
+        call2.enqueue(new Callback<List<Candidate>>() {
+            @Override
+            public void onResponse(Call<List<Candidate>> call, Response<List<Candidate>> response) {
+                serviceAvailableMessage();
+                app.candidates = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<Candidate>> call, Throwable t) {
+                // app.donationServiceAvailable = false;
+                serviceUnavailableMessage();
+            }
+        });
+    }
+
+    public void login (View view) {
+        if (app.donationServiceAvailable) {
+            String emailInput = email.getText().toString();
+            String passwordInput = password.getText().toString();
+
+            if (app.validUser(emailInput, passwordInput)) {
                 startActivity(new Intent(this, Donate.class));
                 Log.v("Donate", "Login successful " + emailInput);
-            } else {
+            }
+            else {
                 Toast.makeText(this, "Login failed!", Toast.LENGTH_SHORT).show();
                 Log.v("Donate", "Login failed");
-                startActivity(new Intent(this, Login.class));
+                email.setText("");
+                password.setText("");
             }
+        } else {
+            serviceUnavailableMessage();
         }
     }
 
     public void signUp (View view) {
-        startActivity(new Intent(this, SignUp.class));
+        if (app.donationServiceAvailable) {
+            startActivity (new Intent(this, SignUp.class));
+        } else {
+            serviceUnavailableMessage();
+        }
     }
 
+    /*
+    @Override
+    public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+        serviceAvailableMessage();
+        app.users = response.body();
+    }
 
+    @Override
+    public void onFailure(Call<List<User>> call, Throwable t) {
+        serviceUnavailableMessage();
+    }
+    */
+
+    void serviceUnavailableMessage() {
+        app.donationServiceAvailable = false;
+        Toast.makeText(this, "Donation Service Unavailable. Try again later", Toast.LENGTH_LONG).show();
+    }
+
+    void serviceAvailableMessage() {
+        app.donationServiceAvailable = true;
+        Toast.makeText(this, "Donation Contacted Successfully", Toast.LENGTH_LONG).show();
+    }
 }
