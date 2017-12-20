@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/background_activated">
 
     <CheckBox
         android:id="@+id/residence_list_item_isrented"
@@ -12,7 +13,7 @@
         android:enabled="false"
         android:focusable="false"
         android:padding="4dp"
-        />
+        android:layout_alignParentRight="true" />
 
     <TextView
         android:id="@+id/residence_list_item_geolocation"
@@ -22,7 +23,7 @@
         android:textStyle="bold"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        />
+        android:layout_toLeftOf="@id/residence_list_item_isrented" />
 
     <TextView
         android:id="@+id/residence_list_item_dateTextView"
@@ -32,6 +33,7 @@
         android:layout_toStartOf="@id/residence_list_item_isrented"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:paddingTop="4dp"/>
+        android:paddingTop="4dp"
+        android:layout_toLeftOf="@id/residence_list_item_isrented" />
 
 </RelativeLayout>

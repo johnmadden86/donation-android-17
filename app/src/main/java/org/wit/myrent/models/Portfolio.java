@@ -45,4 +45,9 @@ public class Portfolio {
             return false;
         }
     }
+
+    public void deleteResidence(Residence residence) {
+        residences.remove(residence);
+        saveResidences();
+    }
 }

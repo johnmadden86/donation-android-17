@@ -10,12 +10,10 @@ import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,45 +34,37 @@ import java.util.GregorianCalendar;
 import app.donation.R;
 
 import static org.wit.android.helpers.ContactHelper.getContact;
-import static org.wit.android.helpers.ContactHelper.getDisplayName;
 import static org.wit.android.helpers.ContactHelper.getEmail;
 import static org.wit.android.helpers.ContactHelper.sendEmail;
 import static org.wit.android.helpers.IntentHelper.navigateUp;
-import static org.wit.android.helpers.IntentHelper.selectContact;
 
-public class ResidenceFragment extends Fragment
-        implements TextWatcher,
-        CompoundButton.OnCheckedChangeListener,
-        View.OnClickListener,
-        DatePickerDialog.OnDateSetListener {
+public  class       ResidenceFragment
+        extends     Fragment
+        implements  TextWatcher,
+                    CompoundButton.OnCheckedChangeListener,
+                    View.OnClickListener,
+                    DatePickerDialog.OnDateSetListener {
 
-    private EditText geolocation;
-    private Residence residence;
-    private CheckBox rented;
-    private Button dateButton, tenantButton, reportButton;
-    private Portfolio portfolio;
-    private static final int REQUEST_CONTACT = 1;
-    private String emailAddress;
-    private Intent data;
 
-    public static   final String  EXTRA_RESIDENCE_ID = "myrent.RESIDENCE_ID";
+    private static final int    REQUEST_CONTACT = 1;
+    public  static final String EXTRA_RESIDENCE_ID = "myrent.RESIDENCE_ID";
+
+    private EditText    geolocation;
+    private Residence   residence;
+    private CheckBox    rented;
+    private Button      dateButton, tenantButton, reportButton;
+    private Portfolio   portfolio;
+    private String      emailAddress;
+    private Intent      data;
+
     MyRentApp app;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        /*
-        setContentView(R.layout.fragment_residence);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        */
-        // residence = new Residence();
         app = MyRentApp.getApp();
-        // MyRentApp app = (MyRentApp) getApplication();
         portfolio = app.portfolio;
-        // Long resId = (Long) getIntent().getExtras().getSerializable("RESIDENCE_ID");
         Long resId = (Long) getActivity().getIntent().getSerializableExtra(EXTRA_RESIDENCE_ID);
         residence = portfolio.getResidence(resId);
     }
@@ -100,9 +90,6 @@ public class ResidenceFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         super.onCreateView(inflater,  parent, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_residence, parent, false);
-
-        ResidenceActivity residenceActivity = (ResidenceActivity)getActivity();
-        residenceActivity.actionBar.setDisplayHomeAsUpEnabled(true);
 
         addListeners(v);
         updateControls(residence);

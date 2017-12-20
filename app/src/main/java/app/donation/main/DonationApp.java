@@ -20,37 +20,38 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class DonationApp extends Application implements Callback<Token> {
+public  class   DonationApp
+        extends Application {
 
-    public DonationService donationService;
-    public DonationServiceOpen donationServiceOpen;
+    public DonationService  donationService;
+    public boolean          donationServiceAvailable = false;
+    public String           serviceUrl = "https://dry-cliffs-14757.herokuapp.com";
 
-    public boolean donationServiceAvailable = false;
-    public String service_url = "https://dry-cliffs-14757.herokuapp.com";
+    public final    int     target = 10000;
+    public          int     totalDonated = 0;
+    public          String  totalDonatedString;
 
-    public User currentUser;
-
-    public final int target = 10000;
-    public int totalDonated = 0;
-    public String totalDonatedString;
-
-    public List<Donation> donations = new ArrayList<>();
-    public List<User> users = new ArrayList<>();
-    public List<Candidate> candidates = new ArrayList<>();
+    public User             currentUser;
+    public List<Donation>   donations   = new ArrayList<>();
+    public List<User>       users       = new ArrayList<>();
+    public List<Candidate>  candidates  = new ArrayList<>();
 
     @Override
     public void onCreate() {
         super.onCreate();
-        /*
+
+        for (Donation donation : donations) {
+            totalDonated += donation.amount;
+        }
 
         Gson gson = new GsonBuilder().create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(service_url)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
+        Retrofit retrofit = new Retrofit
+                                .Builder()
+                                .baseUrl(serviceUrl)
+                                .addConverterFactory(GsonConverterFactory.create(gson))
+                                .build();
 
-        */
-        donationServiceOpen = RetrofitServiceFactory.createService(DonationServiceOpen.class);
+        donationService = retrofit.create(DonationService.class);
 
         Log.v("Donate", "Donation App Started");
     }
@@ -73,33 +74,12 @@ public class DonationApp extends Application implements Callback<Token> {
     }
 
     public boolean validUser (String email, String password) {
-
-        User user = new User("", "", email, password);
-        donationServiceOpen.authenticate(user);
-        Call<Token> call = (Call<Token>) donationServiceOpen.authenticate(user);
-        call.enqueue(this);
-        return true;
-        /*
         for (User user : users) {
             if (user.email.equals(email) && user.password.equals(password)) {
+                currentUser = user;
                 return true;
             }
         }
         return false;
-        */
-    }
-
-    @Override
-    public void onResponse(Call<Token> call, Response<Token> response) {
-        Token auth = response.body();
-        currentUser = auth.user;
-        donationService =  RetrofitServiceFactory.createService(DonationService.class, auth.token);
-        Log.v("Donation", "Authenticated " + currentUser.firstName + ' ' + currentUser.lastName);
-    }
-
-    @Override
-    public void onFailure(Call<Token> call, Throwable t) {
-        Toast.makeText(this, "Unable to authenticate with Donation Service", Toast.LENGTH_SHORT).show();
-        Log.v("Donation", "Failed to Authenticate!");
     }
 }

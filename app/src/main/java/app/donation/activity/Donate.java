@@ -33,8 +33,11 @@ import retrofit2.Response;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.Integer.valueOf;
+import static org.wit.android.helpers.LogHelpers.info;
 
-public class Donate extends AppCompatActivity implements View.OnClickListener, Callback<Donation> {
+public  class Donate
+        extends AppCompatActivity
+        implements View.OnClickListener, Callback<Donation> {
 
     private DonationApp app;
     private Button donateButton;
@@ -58,6 +61,7 @@ public class Donate extends AppCompatActivity implements View.OnClickListener, C
         paymentMethod = (RadioGroup) findViewById(R.id.paymentMethod);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setProgress(app.totalDonated);
         progressBar.setMax(app.target);
 
         amountPicker = (NumberPicker) findViewById(R.id.amountPicker);
@@ -76,16 +80,22 @@ public class Donate extends AppCompatActivity implements View.OnClickListener, C
 
     public void donateButtonPressed(View view) {
         int amount = amountPicker.getValue();
-        int amountText = amountPickerText.getText().toString().equals("") ? 0 : parseInt(amountPickerText.getText().toString());
-        amount = amount != 0 ? amount : amountText;
+        int amountText = amountPickerText.getText().toString().equals("")
+                        ? 0
+                        : parseInt(amountPickerText.getText().toString());
+        amount =    amount != 0
+                    ? amount
+                    : amountText;
         int radioId = paymentMethod.getCheckedRadioButtonId();
         String method = radioId == R.id.payPal ? "PayPal" : "Direct";
 
         if (amount > 0) {
             Donation donation = new Donation(amount, method);
             Candidate candidate = (Candidate) candidateSelection.getSelectedItem();
+            Log.v("Donate", candidate._id);
             Call<Donation> call = (Call<Donation>) app.donationService.createDonation(candidate._id, donation);
             call.enqueue(this);
+            info(this, this.toString());
         }
         amountPicker.setValue(0);
         amountPickerText.setText("");
@@ -124,7 +134,6 @@ public class Donate extends AppCompatActivity implements View.OnClickListener, C
     @Override
     public void onResponse(Call<Donation> call, Response<Donation> response) {
         Toast.makeText(this, "Donation Accepted", Toast.LENGTH_SHORT).show();
-
         app.newDonation(response.body());
         progressBar.setProgress(app.totalDonated);
         total.setText(app.totalDonatedString);
@@ -135,11 +144,13 @@ public class Donate extends AppCompatActivity implements View.OnClickListener, C
     public void onFailure(Call<Donation> call, Throwable t) {
         Toast.makeText(this, "Error making donation", Toast.LENGTH_LONG).show();
         Log.v("Donate", "Donation failed");
-
     }
 
 
-    private class CandidateAdapter extends BaseAdapter implements SpinnerAdapter {
+    private class       CandidateAdapter
+            extends     BaseAdapter
+            implements  SpinnerAdapter {
+
         private final List<Candidate> candidateData;
 
         public CandidateAdapter(List<Candidate> data) {
@@ -164,12 +175,18 @@ public class Donate extends AppCompatActivity implements View.OnClickListener, C
         @Override
         public View getView(int position, View recycle, ViewGroup parent) {
             TextView text;
-            if (recycle != null) {
+            if (recycle != null)
+            {
                 text = (TextView) recycle;
-            } else {
-                text = (TextView) getLayoutInflater().inflate(
-                        android.R.layout.simple_dropdown_item_1line, parent, false
-                );
+            }
+            else
+            {
+                text = (TextView)   getLayoutInflater()
+                                    .inflate(
+                                                android.R.layout.simple_dropdown_item_1line,
+                                                parent,
+                                                false
+                                            );
             }
             text.setTextColor(Color.BLACK);
             String fullName = candidateData.get(position).firstName + " " + candidateData.get(position).lastName;

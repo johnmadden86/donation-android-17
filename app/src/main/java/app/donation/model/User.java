@@ -1,9 +1,5 @@
 package app.donation.model;
 
-import android.widget.TextView;
-
-import java.security.KeyStore;
-
 public class User {
     public String _id;
     public String firstName;

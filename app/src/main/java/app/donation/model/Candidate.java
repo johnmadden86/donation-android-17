@@ -1,6 +1,7 @@
 package app.donation.model;
 
 public class Candidate {
+
     public String   _id;
     public String firstName;
     public String lastName;

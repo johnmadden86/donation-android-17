@@ -14,30 +14,33 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignUp extends AppCompatActivity implements Callback<User> {
+public  class       SignUp
+        extends     AppCompatActivity
+        implements  Callback<User> {
+
     private DonationApp app;
-    private EditText firstName, lastName, email, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_up);
+        setContentView(R.layout.activity_sign_up);
         app = (DonationApp) getApplication();
-        firstName = (EditText) findViewById(R.id.firstName);
-        lastName = (EditText) findViewById(R.id.lastName);
-        email = (EditText) findViewById(R.id.email);
-        password = (EditText) findViewById(R.id.password);
     }
 
     public void signUp (View view) {
-        User user = new User(
-                firstName.getText().toString(),
-                lastName.getText().toString(),
-                email.getText().toString(),
-                password.getText().toString()
-        );
-        app.newUser(user);
-        Call<User> call = (Call<User>) app.donationServiceOpen.createUser(user);
+        EditText firstName  = (EditText) findViewById(R.id.firstName);
+        EditText lastName   = (EditText) findViewById(R.id.lastName);
+        EditText email      = (EditText) findViewById(R.id.email);
+        EditText password   = (EditText) findViewById(R.id.password);
+
+        User user = new User (
+                                firstName.getText().toString(),
+                                lastName.getText().toString(),
+                                email.getText().toString(),
+                                password.getText().toString()
+                            );
+
+        Call<User> call = (Call<User>) app.donationService.createUser(user);
         call.enqueue(this);
     }
 
@@ -51,7 +54,7 @@ public class SignUp extends AppCompatActivity implements Callback<User> {
 
     @Override
     public void onResponse(Call<User> call, Response<User> response) {
-        app.users.add(response.body());
+        app.newUser(response.body());
         Toast.makeText(this, "Sign-up successful", Toast.LENGTH_LONG).show();
         startActivity(new Intent(this, Donate.class));
     }
