@@ -6,7 +6,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
-import app.donation.R;
+import org.wit.myrent.R;
 
 import static org.wit.android.helpers.IntentHelper.navigateUp;
 import static org.wit.android.helpers.LogHelpers.info;

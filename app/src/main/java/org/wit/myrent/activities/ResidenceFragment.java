@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -31,12 +32,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import app.donation.R;
+import org.wit.myrent.R;
 
 import static org.wit.android.helpers.ContactHelper.getContact;
 import static org.wit.android.helpers.ContactHelper.getEmail;
 import static org.wit.android.helpers.ContactHelper.sendEmail;
 import static org.wit.android.helpers.IntentHelper.navigateUp;
+import static org.wit.android.helpers.IntentHelper.startActivityNoData;
+import static org.wit.android.helpers.IntentHelper.startActivityWithData;
 
 public  class       ResidenceFragment
         extends     Fragment
@@ -65,7 +68,9 @@ public  class       ResidenceFragment
         setHasOptionsMenu(true);
         app = MyRentApp.getApp();
         portfolio = app.portfolio;
-        Long resId = (Long) getActivity().getIntent().getSerializableExtra(EXTRA_RESIDENCE_ID);
+
+        Long resId = (Long) getArguments()
+                            .getSerializable(EXTRA_RESIDENCE_ID);
         residence = portfolio.getResidence(resId);
     }
 
@@ -87,9 +92,14 @@ public  class       ResidenceFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup      parent,
+                             Bundle         savedInstanceState) {
         super.onCreateView(inflater,  parent, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_residence, parent, false);
+
+        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        fab.setOnClickListener(this);
 
         addListeners(v);
         updateControls(residence);
@@ -173,6 +183,9 @@ public  class       ResidenceFragment
                         getString(R.string.residence_report_subject),
                         residence.getResidenceReport(getActivity())
                 );
+                break;
+            case R.id.fab:
+                startActivityWithData(getActivity(), MapActivity.class, EXTRA_RESIDENCE_ID, residence.id);
                 break;
         }
     }

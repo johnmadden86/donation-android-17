@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import app.donation.R;
+import org.wit.myrent.R;
 import app.donation.main.DonationApp;
 import app.donation.model.Candidate;
 import retrofit2.Call;

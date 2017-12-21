@@ -1,33 +1,34 @@
 package org.wit.myrent.activities;
 
-import java.util.ArrayList;
-
-import org.wit.android.helpers.IntentHelper;
-import app.donation.R;
-import org.wit.myrent.app.MyRentApp;
-import org.wit.myrent.models.Portfolio;
-import org.wit.myrent.models.Residence;
-import org.wit.myrent.settings.SettingsActivity;
-
-import android.view.ActionMode;
-import android.widget.AbsListView;
-import android.widget.ListView;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.TextView;
-import android.widget.CheckBox;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.ActionMode;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import org.wit.android.helpers.IntentHelper;
+import org.wit.myrent.R;
+import org.wit.myrent.app.MyRentApp;
+import org.wit.myrent.models.Portfolio;
+import org.wit.myrent.models.Residence;
+import org.wit.myrent.settings.SettingsActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public  class       ResidenceListFragment
         extends     ListFragment
@@ -160,10 +161,12 @@ public  class       ResidenceListFragment
 
     class ResidenceAdapter extends ArrayAdapter<Residence> {
         private Context context;
+        List<Residence> residences;
 
         public ResidenceAdapter(Context context, ArrayList<Residence> residences) {
             super(context, 0, residences);
             this.context = context;
+            this.residences = residences;
         }
 
         @SuppressLint("InflateParams")

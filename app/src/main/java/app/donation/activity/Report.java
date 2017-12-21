@@ -3,7 +3,7 @@ package app.donation.activity;
 import app.donation.main.DonationApp;
 import app.donation.model.Candidate;
 import app.donation.model.Donation;
-import app.donation.R;
+import org.wit.myrent.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -15,7 +15,7 @@ import org.wit.myrent.models.Residence;
 
 import java.util.ArrayList;
 
-import app.donation.R;
+import org.wit.myrent.R;
 
 import static org.wit.android.helpers.LogHelpers.info;
 
@@ -23,19 +23,23 @@ public  class       ResidencePagerActivity
         extends     AppCompatActivity
         implements  ViewPager.OnPageChangeListener {
 
-    private ViewPager viewPager;
-    private ArrayList<Residence> residences;
-    private Portfolio portfolio;
-    private PagerAdapter pagerAdapter;
+    private ViewPager               viewPager;
+    private ArrayList<Residence>    residences;
+    private Portfolio               portfolio;
+    private PagerAdapter            pagerAdapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         viewPager = new ViewPager(this);
         viewPager.setId(R.id.viewPager);
         setContentView(viewPager);
+
         setResidenceList();
+
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(), residences);
         viewPager.setAdapter(pagerAdapter);
+
         setCurrentItem();
         viewPager.addOnPageChangeListener(this);
     }
@@ -47,7 +51,8 @@ public  class       ResidencePagerActivity
     }
 
     private void setCurrentItem() {
-        Long resId = (Long) getIntent().getSerializableExtra(ResidenceFragment.EXTRA_RESIDENCE_ID);
+        Long resId = (Long) getIntent()
+                            .getSerializableExtra(ResidenceFragment.EXTRA_RESIDENCE_ID);
         for (int i = 0; i < residences.size(); i++) {
             if (residences.get(i).id.equals(resId)) {
                 viewPager.setCurrentItem(i);

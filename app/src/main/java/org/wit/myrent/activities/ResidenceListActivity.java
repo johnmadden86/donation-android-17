@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import app.donation.R;
+import org.wit.myrent.R;
 
 public class ResidenceListActivity extends AppCompatActivity {
 

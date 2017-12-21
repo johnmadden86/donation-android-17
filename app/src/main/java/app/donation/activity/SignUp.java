@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import app.donation.R;
+import org.wit.myrent.R;
 import app.donation.main.DonationApp;
 import app.donation.model.User;
 import retrofit2.Call;
