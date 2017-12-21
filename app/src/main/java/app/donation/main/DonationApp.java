@@ -21,11 +21,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public  class   DonationApp
-        extends Application {
+        extends Application
+        implements Callback<Token> {
 
-    public DonationService  donationService;
-    public boolean          donationServiceAvailable = false;
-    public String           serviceUrl = "https://dry-cliffs-14757.herokuapp.com";
+    public DonationService      donationService;
+    public DonationServiceOpen  donationServiceOpen;
+    public boolean              donationServiceAvailable = false;
+    public static String        serviceUrl = "https://dry-cliffs-14757.herokuapp.com";
 
     public final    int     target = 10000;
     public          int     totalDonated = 0;
@@ -52,6 +54,7 @@ public  class   DonationApp
                                 .build();
 
         donationService = retrofit.create(DonationService.class);
+        donationServiceOpen = retrofit.create(DonationServiceOpen.class);
 
         Log.v("Donate", "Donation App Started");
     }
@@ -74,12 +77,23 @@ public  class   DonationApp
     }
 
     public boolean validUser (String email, String password) {
-        for (User user : users) {
-            if (user.email.equals(email) && user.password.equals(password)) {
-                currentUser = user;
-                return true;
-            }
-        }
-        return false;
+        User user = new User("", "", email, password);
+        Call<Token> call = (Call<Token>) donationServiceOpen.authenticate(user);
+        call.enqueue(this);
+        return true;
+    }
+
+    @Override
+    public void onResponse(Call<Token> call, Response<Token> response) {
+        Token auth = response.body();
+        currentUser = auth.user;
+        donationService =  RetrofitServiceFactory.createService(DonationService.class, auth.token);
+        Log.v("Donation", "Authenticated " + currentUser.firstName + " " + currentUser.lastName);
+    }
+
+    @Override
+    public void onFailure(Call<Token> call, Throwable t) {
+        Toast.makeText(this, "Unable to authenticate with Donation Service", Toast.LENGTH_SHORT).show();
+        Log.v("Donation", "Failed to Authenticate!");
     }
 }

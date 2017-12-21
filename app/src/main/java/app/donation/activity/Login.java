@@ -13,7 +13,6 @@ import java.util.List;
 import app.donation.R;
 import app.donation.main.DonationApp;
 import app.donation.model.Candidate;
-import app.donation.model.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,7 +21,7 @@ import static org.wit.android.helpers.LogHelpers.info;
 
 public  class Login
         extends AppCompatActivity
-        implements Callback<List<User>> {
+        implements Callback<List<Candidate>> {
 
     private DonationApp app;
     private EditText email, password;
@@ -41,22 +40,8 @@ public  class Login
         super.onResume();
         app.currentUser = null;
 
-        Call<List<User>> call1 = (Call<List<User>>) app.donationService.getAllUsers();
-        call1.enqueue(this);
-
-        Call<List<Candidate>> call2 = (Call<List<Candidate>>) app.donationService.getAllCandidates();
-        call2.enqueue(new Callback<List<Candidate>>() {
-            @Override
-            public void onResponse(Call<List<Candidate>> call, Response<List<Candidate>> response) {
-                serviceAvailableMessage();
-                app.candidates = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<List<Candidate>> call, Throwable t) {
-                serviceUnavailableMessage();
-            }
-        });
+        Call<List<Candidate>> call = (Call<List<Candidate>>) app.donationServiceOpen.getAllCandidates();
+        call.enqueue(this);
     }
 
     public void login (View view) {
@@ -87,17 +72,6 @@ public  class Login
         }
     }
 
-    @Override
-    public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-        serviceAvailableMessage();
-        app.users = response.body();
-    }
-
-    @Override
-    public void onFailure(Call<List<User>> call, Throwable t) {
-        serviceUnavailableMessage();
-    }
-
     void serviceUnavailableMessage() {
         info(this, "Service Unavailable");
         app.donationServiceAvailable = false;
@@ -108,5 +82,16 @@ public  class Login
         info(this, "Service Available");
         app.donationServiceAvailable = true;
         Toast.makeText(this, "Donation Contacted Successfully", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onResponse(Call<List<Candidate>> call, Response<List<Candidate>> response) {
+        serviceAvailableMessage();
+        app.candidates = response.body();
+    }
+
+    @Override
+    public void onFailure(Call<List<Candidate>> call, Throwable t) {
+        serviceUnavailableMessage();
     }
 }

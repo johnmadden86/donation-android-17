@@ -40,7 +40,7 @@ public  class       SignUp
                                 password.getText().toString()
                             );
 
-        Call<User> call = (Call<User>) app.donationService.createUser(user);
+        Call<User> call = (Call<User>) app.donationServiceOpen.createUser(user);
         call.enqueue(this);
     }
 

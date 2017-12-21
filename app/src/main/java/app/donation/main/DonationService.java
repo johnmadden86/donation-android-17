@@ -20,14 +20,8 @@ public interface DonationService {
     @GET("/api/users/{id}")
     Call<User> getUser(@Path("_id") String id);
 
-    @POST("/api/users")
-    Call<User> createUser(@Body User User);
-
     @GET("/api/donations")
     Call<List<Donation>> getAllDonations();
-
-    @GET("/api/candidates")
-    Call<List<Candidate>> getAllCandidates();
 
     @POST("/api/candidates/{id}/donations")
     Call<Donation> createDonation(@Path("id") String id, @Body Donation donation);
