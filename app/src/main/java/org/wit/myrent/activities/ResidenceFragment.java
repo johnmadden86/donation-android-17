@@ -118,7 +118,7 @@ public  class       ResidenceFragment
     @Override
     public void onPause() {
         super.onPause();
-        portfolio.saveResidences();
+        portfolio.updateResidence(residence);
     }
 
     @Override
@@ -185,7 +185,8 @@ public  class       ResidenceFragment
                 );
                 break;
             case R.id.fab:
-                startActivityWithData(getActivity(), MapActivity.class, EXTRA_RESIDENCE_ID, residence.id);
+                // startActivityWithData(getActivity(), MapActivity.class, EXTRA_RESIDENCE_ID, residence.id);
+                startActivityWithData(getActivity(), MapBoxActivity.class, EXTRA_RESIDENCE_ID, residence.id);
                 break;
         }
     }
