@@ -156,9 +156,6 @@ public  class       ResidenceListFragment
 
     }
 
-    /* ******** */
-
-
     class ResidenceAdapter extends ArrayAdapter<Residence> {
         private Context context;
         List<Residence> residences;

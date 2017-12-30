@@ -1,8 +1,10 @@
 package org.wit.android.helpers;
 
 import android.content.Context;
+import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
+// import com.google.android.gms.maps.model.LatLng;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import java.util.Locale;
 
@@ -27,8 +29,46 @@ public class MapHelper {
      * @return A latitude longitude pair in a format suitable for use in Residence class
      */
     public static String latLng(LatLng geo) {
-        return  String.format(Locale.getDefault(),"%.6f", geo.latitude)
+        return  String.format(Locale.getDefault(),"%.6f", geo.getLatitude())
                 + ", "
-                + String.format(Locale.getDefault(),"%.6f", geo.longitude);
+                + String.format(Locale.getDefault(),"%.6f", geo.getLongitude());
+    }
+
+    /**
+     * Parses a string containing latitude and longitude.
+     * @param geolocation The string obtained by concatenating comma separated latitude and longitude
+     * @return The latitude component
+     */
+    public static double latitude(String geolocation) {
+        String[] g = geolocation.split(",");
+        try {
+            if (g.length == 2) {
+                return Double.parseDouble(g[0]);
+            }
+        }
+        catch (NumberFormatException e) {
+            Log.d("MapHelper", "Number format exception: invalid latitude: " + e.getMessage());
+        }
+        return 0.0;
+
+    }
+
+    /**
+     * Parses a string containing latitude and longitude.
+     * @param geolocation The string obtained by concatenating comma separated latitude and longitude
+     * @return The longitude component
+     */
+    public static double longitude(String geolocation) {
+        String[] g = geolocation.split(",");
+        try {
+            if (g.length == 2) {
+                return Double.parseDouble(g[1]);
+            }
+        }
+        catch (NumberFormatException e) {
+            Log.d("MapHelper", "Number format exception: invalid longitude: " + e.getMessage());
+        }
+        return 0.0;
+
     }
 }

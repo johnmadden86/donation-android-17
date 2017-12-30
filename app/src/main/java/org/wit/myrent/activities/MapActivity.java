@@ -1,4 +1,4 @@
-package org.wit.myrent.activities;
+/*package org.wit.myrent.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,10 +27,7 @@ public  class       MapActivity
                     GoogleMap.OnCameraIdleListener,
                     GoogleMap.OnMarkerClickListener {
 
-    /*
-   * We use the current residence when navigating back to parent class - ResidenceFragment as
-   * this is required in ResidenceFragment onCreate.
-   */
+
     Long resId;
     Residence residence; // The residence associated with this map pane
     MyRentApp app;
@@ -80,6 +77,7 @@ public  class       MapActivity
         }
     }
 
+
     @Override
     public void onMarkerDragStart(Marker marker) {
 
@@ -90,10 +88,6 @@ public  class       MapActivity
 
     }
 
-    /**
-     * When marker drag ends, save Residence model geolocation and zoom.
-     * @param marker The map marker representing current residence geolocation.
-     */
     @Override
     public void onMarkerDragEnd(Marker marker) {
         residence.geolocation = MapHelper.latLng(marker.getPosition());
@@ -117,4 +111,6 @@ public  class       MapActivity
         marker.setSnippet("GPS : " + latLng.toString());
         return false;
     }
+
 }
+*/
